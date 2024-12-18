@@ -292,7 +292,7 @@ if __name__ == '__main__':
         torch.manual_seed(args.seed)
         torch.cuda.manual_seed(args.seed)
 
-    main_output_dir = "../output"
+    main_output_dir = "app/midi-emotion/output"
     assert os.path.exists(os.path.join(main_output_dir, args.model_dir))
     midi_output_dir = os.path.join(main_output_dir, args.model_dir, "generations", "inference")
 
