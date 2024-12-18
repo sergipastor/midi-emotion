@@ -23,9 +23,6 @@ def generate(model, maps, device, out_dir, conditioning, short_filename=False,
                     gen_len=2048, temperatures=[1.2,1.2], top_k=-1, 
                     top_p=0.7, debug=False, varying_condition=None, seed=-1,
                     verbose=False, primers=[["<START>"]], min_n_instruments=2):
-
-    if not debug:
-        os.makedirs(out_dir, exist_ok=True)
     
     model = model.to(device)
     model.eval()
@@ -294,15 +291,13 @@ if __name__ == '__main__':
         torch.cuda.manual_seed(args.seed)
 
     assert os.path.exists(os.path.join(args.output_dir, args.model_dir))
-    midi_output_dir = os.path.join(args.output_dir, args.model_dir, "generations", "inference")
+    midi_output_dir = os.path.join(args.output_dir, args.model_dir, "generations")
 
     new_dir = ""
     if args.batch_gen_dir != "":
         new_dir = new_dir + "_" + args.batch_gen_dir
     if new_dir != "":
         midi_output_dir = os.path.join(midi_output_dir, new_dir)
-    if not args.debug:
-        os.makedirs(midi_output_dir, exist_ok=True)
 
     model_fp = os.path.join(args.output_dir, args.model_dir, 'model.pt')
     mappings_fp = os.path.join(args.output_dir, args.model_dir, 'mappings.pt')
