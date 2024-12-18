@@ -259,6 +259,7 @@ if __name__ == '__main__':
     parser = ArgumentParser()
 
     parser.add_argument('--model_dir', type=str, help='Directory with model', required=True)
+    parser.add_argument('--output_dir', type=str, required=True)
     parser.add_argument('--no_cuda', action='store_true', help="Use CPU")
     parser.add_argument('--num_runs', type=int, help='Number of runs', default=1)
     parser.add_argument('--gen_len', type=int, help='Max generation len', default=4096)
@@ -292,9 +293,8 @@ if __name__ == '__main__':
         torch.manual_seed(args.seed)
         torch.cuda.manual_seed(args.seed)
 
-    main_output_dir = "app/midi-emotion/output"
-    assert os.path.exists(os.path.join(main_output_dir, args.model_dir))
-    midi_output_dir = os.path.join(main_output_dir, args.model_dir, "generations", "inference")
+    assert os.path.exists(os.path.join(args.output_dir, args.model_dir))
+    midi_output_dir = os.path.join(args.output_dir, args.model_dir, "generations", "inference")
 
     new_dir = ""
     if args.batch_gen_dir != "":
@@ -304,9 +304,9 @@ if __name__ == '__main__':
     if not args.debug:
         os.makedirs(midi_output_dir, exist_ok=True)
 
-    model_fp = os.path.join(main_output_dir, args.model_dir, 'model.pt')
-    mappings_fp = os.path.join(main_output_dir, args.model_dir, 'mappings.pt')
-    config_fp = os.path.join(main_output_dir, args.model_dir, 'model_config.pt')
+    model_fp = os.path.join(args.output_dir, args.model_dir, 'model.pt')
+    mappings_fp = os.path.join(args.output_dir, args.model_dir, 'mappings.pt')
+    config_fp = os.path.join(args.output_dir, args.model_dir, 'model_config.pt')
 
     if os.path.exists(mappings_fp):
         maps = torch.load(mappings_fp)
